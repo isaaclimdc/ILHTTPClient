@@ -1,6 +1,6 @@
 //
-// ILJSONClient.m
-// Version 1.0
+// ILHTTPClient
+// Version 1.1
 // Created by Isaac Lim (isaacl.net) on 1/1/13.
 //
 
@@ -41,11 +41,15 @@
 #pragma mark - Data processing methods
 
 - (void)performOperationWithRequest:(NSURLRequest *)request
+                        loadingText:(NSString *)loadingText
+                        successText:(NSString *)successText
                             success:(void (^)(AFHTTPRequestOperation *operation,
                                               NSString *response))success
                             failure:(void (^)(AFHTTPRequestOperation *operation,
                                               NSError *error))failure
 {
+    /* Animate in the HUD */
+    [MBProgressHUD fadeInHUDInView:self.view withText:loadingText];
     self.isShowingHUD = YES;
 
     self.HTTPOperation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
@@ -56,8 +60,8 @@
          /* Return response string instead of binary data */
          success(operation, operation.responseString);
 
-         /* Animate out the HUD */
-         [MBProgressHUD fadeOutHUDInView:self.view withSuccessText:nil];
+         /* Animate out the HUD. If successText != nil then show checkmark */
+         [MBProgressHUD fadeOutHUDInView:self.view withSuccessText:successText];
          self.isShowingHUD = NO;
 
      } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -80,17 +84,19 @@
 - (void)getPath:(NSString *)path
      parameters:(NSDictionary *)parameters
     loadingText:(NSString *)loadingText
+    successText:(NSString *)successText
         success:(void (^)(AFHTTPRequestOperation *operation, NSString *response))success
         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
 {
-    /* Animate in the HUD */
-    [MBProgressHUD fadeInHUDInView:self.view withText:loadingText];
-
     NSURLRequest *request = [self requestWithMethod:@"GET"
                                                path:path
                                          parameters:parameters];
 
-    [self performOperationWithRequest:request success:success failure:failure];
+    [self performOperationWithRequest:request
+                          loadingText:loadingText
+                          successText:successText
+                              success:success
+                              failure:failure];
 }
 
 - (BOOL)isExecuting {
@@ -118,19 +124,21 @@
 - (void)postPath:(NSString *)path
       parameters:(NSDictionary *)parameters
      loadingText:(NSString *)loadingText
+     successText:(NSString *)successText
    multiPartForm:(void (^)(id <AFMultipartFormData>formData))multiPartForm
          success:(void (^)(AFHTTPRequestOperation *operation, NSString *response))success
          failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
 {
-    /* Animate in the HUD */
-    [MBProgressHUD fadeInHUDInView:self.view withText:loadingText];
-
     NSURLRequest *request = [self multipartFormRequestWithMethod:@"POST"
                                                             path:path
                                                       parameters:parameters
                                        constructingBodyWithBlock:multiPartForm];
 
-    [self performOperationWithRequest:request success:success failure:failure];
+    [self performOperationWithRequest:request
+                          loadingText:loadingText
+                          successText:successText
+                              success:success
+                              failure:failure];
 }
 
 - (void)setDownloadProgressAction:(void (^)(NSUInteger bytesRead,
@@ -152,17 +160,19 @@
 - (void)deletePath:(NSString *)path
         parameters:(NSDictionary *)parameters
        loadingText:(NSString *)loadingText
+       successText:(NSString *)successText
            success:(void (^)(AFHTTPRequestOperation *operation, NSString *response))success
            failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
 {
-    /* Animate in the HUD */
-    [MBProgressHUD fadeInHUDInView:self.view withText:loadingText];
-
     NSURLRequest *request = [self requestWithMethod:@"DELETE"
                                                path:path
                                          parameters:parameters];
 
-    [self performOperationWithRequest:request success:success failure:failure];
+    [self performOperationWithRequest:request
+                          loadingText:loadingText
+                          successText:successText
+                              success:success
+                              failure:failure];
 }
 
 #pragma mark - PUT operation
@@ -170,19 +180,21 @@
 - (void)putPath:(NSString *)path
      parameters:(NSDictionary *)parameters
     loadingText:(NSString *)loadingText
+    successText:(NSString *)successText
   multiPartForm:(void (^)(id <AFMultipartFormData>formData))multiPartForm
         success:(void (^)(AFHTTPRequestOperation *operation, NSString *response))success
         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
 {
-    /* Animate in the HUD */
-    [MBProgressHUD fadeInHUDInView:self.view withText:loadingText];
-
     NSURLRequest *request = [self multipartFormRequestWithMethod:@"PUT"
                                                             path:path
                                                       parameters:parameters
                                        constructingBodyWithBlock:multiPartForm];
     
-    [self performOperationWithRequest:request success:success failure:failure];
+    [self performOperationWithRequest:request
+                          loadingText:loadingText
+                          successText:successText
+                              success:success
+                              failure:failure];
 }
 
 @end

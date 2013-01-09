@@ -3,11 +3,11 @@ ILHTTPClient
 
 A wrapper around AFNetworking with an auto loading HUD.
 
-### Version 1.0
+### Version 1.1
 
 Overview
 --------
-`ILHTTPClient` is a thin wrapper around `AFNetworking` that automatically fades in and out an `MBProgressHUD` HUD for each request made. It exposes several easy-to-use methods to make each of the four *verbs* in HTTP requests: GET, POST, DELETE and PUT.
+`ILHTTPClient` is a thin wrapper around `AFNetworking` that automatically fades in and out an `MBProgressHUD` HUD for each request made. It subclasses `AFHTTPClient`, and exposes several easy-to-use methods to make each of the four *verbs* in HTTP requests: GET, POST, DELETE and PUT.
 
 Responses returned by the HTTP requests made are in `NSString` plain text form, and can be converted to JSON objects (if the context is appropriate), using a built-in method `-JSONValue` on the `NSString`. Currently, only plain-text and JSON formats are supported.
 
@@ -41,39 +41,44 @@ A demo project `ILHTTPClientDemo` is included to show how `ILHTTPClient` can be 
    And assign the result of this method call to the ivar client. Note that the view given should be the one you want to display the HUD in (usually `self.view`). The client only needs to be initialized once per set of requests with the same base URL.
 
 #### Making a GET request
-1. Use the following method. `params` is an NSDictionary containing the key-value pairs of any parameters needed to be passed into the request. `loadingText` is rhe text to show in the HUD while the request is executing. `success` and `failure` are the callback blocks.
+1. Use the following method. `params` is an NSDictionary containing the key-value pairs of any parameters needed to be passed into the request. `loadingText` is the text to show in the HUD while the request is executing. `sucessText` is the text to show in the HUD when the request completes successfully. If nil, the HUD will just fade away. If non-nil, a checkmark will be shown along with the text. `success` and `failure` are the callback blocks.
 
-        [client getPath:path parameters:params loadingText:@"Loading"
-          success:^(AFHTTPRequestOperation *operation, NSString *response) {
-   
+        [client getPath:path
+             parameters:params
+            loadingText:@"Loading"
+            successText:@"Completed!"
+                success:^(AFHTTPRequestOperation *operation, NSString *response)
+        {
             id JSON = [response JSONValue]; //If JSON is returned
             /* Do something with this data */
 
-        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-
+        }
+                failure:^(AFHTTPRequestOperation *operation, NSError *error)
+        {
             NSLog(@"Error: %@", error);
             /* Handle the error here */
-        
         }];
 
 #### Making a POST request
 1. Use the following method. The parameters are all the same as for the GET request, except for `multiPartForm`. In this block, use the methods declared in `AFHTTPClient.h` to compose the `AFMultipartFormData` object. One such example is to use `-appendPartWithFileData:name:` to compose the POST request body.
 
-        [client postPath:path parameters:params loadingText:@"Submitting" 
-          multiPartForm:^(id<AFMultipartFormData> formData) {
-          
-            /* Compose POST request body here */
-              
-        } success:^(AFHTTPRequestOperation *operation, NSString *response) {
-        
+        [client postPath:path
+              parameters:params
+             loadingText:@"Submitting" 
+             successText:@"Submitted!"
+          multiPartForm:^(id<AFMultipartFormData> formData)
+        {
+            /* Compose POST request body here */     
+        }
+                success:^(AFHTTPRequestOperation *operation, NSString *response)
+        {
             id JSON = [response JSONValue]; //If JSON is returned
-            /* Do something with this data */
-            
-        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        
+            /* Do something with this data */   
+        }
+                 failure:^(AFHTTPRequestOperation *operation, NSError *error)
+        {
             NSLog(@"Error: %@", error);
-            /* Handle the error here */
-            
+            /* Handle the error here */   
         }];
 
 #### Making DELETE and PUT requests
@@ -95,6 +100,9 @@ Isaac Lim
 
 Version History
 ---------------
+**1.1**
+- Edited methods to integrate the `successText` parameter. This ties in the additions I made to `MBProgressHUD` in `MBProgressHUD+CustomAdditions.h`. Note: This breaks the methods in v1.0. To fix, add the `successText` parameter to each request call.
+
 **1.0**
 - First publish to Github
 

@@ -43,8 +43,12 @@
                             kAPIKey, @"key",
                             nil];
 
-    [client getPath:@"weather.ashx" parameters:params loadingText:@"Getting weather" success:^(AFHTTPRequestOperation *operation, NSString *response) {
-
+    [client getPath:@"weather.ashx"
+         parameters:params
+        loadingText:@"Getting weather"
+        successText:nil
+            success:^(AFHTTPRequestOperation *operation, NSString *response)
+    {
         NSDictionary *responseDict = [response JSONValue];
         NSDictionary *currentDict = [[[responseDict objectForKey:@"data"] objectForKey:@"current_condition"] objectAtIndex:0];
 
@@ -56,11 +60,10 @@
         self.weather = weather;
         
         [self updateUI];
-
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-
+    }
+            failure:^(AFHTTPRequestOperation *operation, NSError *error)
+    {
         NSLog(@"Error: %@", error);
-        
     }];
 }
 

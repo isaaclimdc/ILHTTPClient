@@ -1,6 +1,6 @@
 //
-// ILJSONClient.h
-// Version 1.0
+// ILHTTPClient
+// Version 1.1
 // Created by Isaac Lim (isaacl.net) on 1/1/13.
 //
 
@@ -42,6 +42,7 @@
  * @param path The path of the desired resource, relative to the base URL as designated in @see clientWithBaseURL:showingHUDInView:
  * @param parameters An NSDictionary containing the parameters of the request.
  * @param loadingText The text to show in the HUD while the request is executing.
+ * @param successText The text to show in the HUD when the request completes successfully. If nil, the HUD will just fade away. If non-nil, a checkmark will be shown along with the text.
  * @param success The callback block to perform upon success.
  * @param failure The callback block to perform upon failure.
  *
@@ -50,6 +51,7 @@
 - (void)getPath:(NSString *)path
      parameters:(NSDictionary *)parameters
     loadingText:(NSString *)loadingText
+    successText:(NSString *)successText
         success:(void (^)(AFHTTPRequestOperation *operation, NSString *response))success
         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
 
@@ -64,6 +66,7 @@
  * @param path The path of the desired resource, relative to the base URL as designated in @see clientWithBaseURL:showingHUDInView:
  * @param parameters An NSDictionary containing the parameters of the request.
  * @param loadingText The text to show in the HUD while the request is executing.
+ * @param successText The text to show in the HUD when the request completes successfully. If nil, the HUD will just fade away. If non-nil, a checkmark will be shown along with the text.
  * @param multiPartForm The form containing the POST data.
  * @param success The callback block to perform upon success.
  * @param failure The callback block to perform upon failure.
@@ -73,6 +76,7 @@
 - (void)postPath:(NSString *)path
       parameters:(NSDictionary *)parameters
      loadingText:(NSString *)loadingText
+     successText:(NSString *)successText
    multiPartForm:(void (^)(id <AFMultipartFormData>formData))multiPartForm
          success:(void (^)(AFHTTPRequestOperation *operation, NSString *response))success
          failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
@@ -89,6 +93,7 @@
  * @param path The path of the desired resource, relative to the base URL as designated in @see clientWithBaseURL:showingHUDInView:
  * @param parameters An NSDictionary containing the parameters of the request.
  * @param loadingText The text to show in the HUD while the request is executing.
+ * @param successText The text to show in the HUD when the request completes successfully. If nil, the HUD will just fade away. If non-nil, a checkmark will be shown along with the text.
  * @param success The callback block to perform upon success.
  * @param failure The callback block to perform upon failure.
  *
@@ -97,6 +102,7 @@
 - (void)deletePath:(NSString *)path
         parameters:(NSDictionary *)parameters
        loadingText:(NSString *)loadingText
+       successText:(NSString *)successText
            success:(void (^)(AFHTTPRequestOperation *operation, NSString *response))success
            failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
 
@@ -105,6 +111,7 @@
  * @param path The path of the desired resource, relative to the base URL as designated in @see clientWithBaseURL:showingHUDInView:
  * @param parameters An NSDictionary containing the parameters of the request.
  * @param loadingText The text to show in the HUD while the request is executing.
+ * @param successText The text to show in the HUD when the request completes successfully. If nil, the HUD will just fade away. If non-nil, a checkmark will be shown along with the text.
  * @param multiPartForm The form containing the PUT data.
  * @param success The callback block to perform upon success.
  * @param failure The callback block to perform upon failure.
@@ -114,6 +121,7 @@
 - (void)putPath:(NSString *)path
      parameters:(NSDictionary *)parameters
     loadingText:(NSString *)loadingText
+    successText:(NSString *)successText
   multiPartForm:(void (^)(id <AFMultipartFormData>formData))multiPartForm
         success:(void (^)(AFHTTPRequestOperation *operation, NSString *response))success
         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
