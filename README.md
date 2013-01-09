@@ -51,7 +51,6 @@ A demo project `ILHTTPClientDemo` is included to show how `ILHTTPClient` can be 
         {
             id JSON = [response JSONValue]; //If JSON is returned
             /* Do something with this data */
-
         }
                 failure:^(AFHTTPRequestOperation *operation, NSError *error)
         {
@@ -108,7 +107,7 @@ Version History
 
 License
 -------
- ILSideScrollView is distributed under the terms and conditions of the MIT license.
+ ILHTTPClient is distributed under the terms and conditions of the MIT license.
 
  Copyright (c) 2013 isaacl.net. All rights reserved.
 
