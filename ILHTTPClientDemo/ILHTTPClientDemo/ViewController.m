@@ -50,6 +50,7 @@
             success:^(AFHTTPRequestOperation *operation, NSString *response)
     {
         NSDictionary *responseDict = [response JSONValue];
+        NSLog(@"%@", responseDict);
         NSDictionary *currentDict = [[[responseDict objectForKey:@"data"] objectForKey:@"current_condition"] objectAtIndex:0];
 
         Weather *weather = [[Weather alloc] init];
