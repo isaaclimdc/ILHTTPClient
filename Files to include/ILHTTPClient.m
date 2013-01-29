@@ -1,6 +1,6 @@
 //
 // ILHTTPClient
-// Version 1.1
+// Version 1.11
 // Created by Isaac Lim (isaacl.net) on 1/1/13.
 //
 
@@ -54,6 +54,8 @@
 
     self.HTTPOperation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
 
+    __block ILHTTPClient *client = self;
+
     [self.HTTPOperation setCompletionBlockWithSuccess:^
      (AFHTTPRequestOperation *operation, id responseObject) {
 
@@ -61,8 +63,8 @@
          success(operation, operation.responseString);
 
          /* Animate out the HUD. If successText != nil then show checkmark */
-         [MBProgressHUD fadeOutHUDInView:self.view withSuccessText:successText];
-         self.isShowingHUD = NO;
+         [MBProgressHUD fadeOutHUDInView:client.view withSuccessText:successText];
+         client.isShowingHUD = NO;
 
      } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
 
@@ -70,8 +72,8 @@
          failure(operation, error);
 
          /* Animate out the HUD */
-         [MBProgressHUD fadeOutHUDInView:self.view withSuccessText:nil];
-         self.isShowingHUD = NO;
+         [MBProgressHUD fadeOutHUDInView:client.view withSuccessText:nil];
+         client.isShowingHUD = NO;
 
      }];
 

@@ -3,7 +3,7 @@ ILHTTPClient
 
 A wrapper around AFNetworking with an auto loading HUD.
 
-### Version 1.1
+### Version 1.11
 
 Overview
 --------
@@ -99,6 +99,9 @@ Isaac Lim
 
 Version History
 ---------------
+**1.11**
+- Fixed reference to `self` within a block which could lead to a retain cycle.
+
 **1.1**
 - Edited methods to integrate the `successText` parameter. This ties in the additions I made to `MBProgressHUD` in `MBProgressHUD+CustomAdditions.h`. Note: This breaks the methods in v1.0. To fix, add the `successText` parameter to each request call.
 

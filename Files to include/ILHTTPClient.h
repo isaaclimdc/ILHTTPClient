@@ -1,6 +1,6 @@
 //
 // ILHTTPClient
-// Version 1.1
+// Version 1.11
 // Created by Isaac Lim (isaacl.net) on 1/1/13.
 //
 
